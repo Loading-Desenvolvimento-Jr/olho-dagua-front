@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fontes */
+  --font-title: var(--font-londrina);
+  --font-sans: var(--font-livvic);
+
+  /* Cores */
+  --color-yellow-light: #fdc005;
+  --color-yellow-dark: #fba301;
+  --color-blue-light: #02adfc;
+  --color-blue-dark: #006bef;
+  --color-white-custom: #f8f5f0;
+  --color-orange-light: #fe7e03;
+  --color-orange-dark: #f96000;
+  --color-black-custom: #14110c;
+  --color-pink-light: #fcaad2;
+  --color-pink-dark: #fa82bf;
+  --color-purple-light: #b591d8;
+  --color-purple-dark: #a870cd;
+  --color-green-light: #02af5d;
+  --color-green-dark: #029346;
+}
+
+/* Configuração Padrão */
+:root {
+  background-color: var(--color-white-custom);
+  color: var(--color-black-custom);
+}
+
+/* Utilitários de Texto */
+@layer utilities {
+  
+  /* Display (Títulos Gigantes) */
+  .text-display {
+    font-family: var(--font-londrina);
+    font-weight: 900;
+    line-height: 1.1;
+    font-size: 40px;
+    
+    @media (min-width: 768px) {
+      font-size: 64px;
+    }
+  }
+
+  /* Títulos de Sessão */
+  .text-titulo {
+    font-family: var(--font-londrina);
+    font-weight: 400;
+    font-size: 28px;
+
+    @media (min-width: 768px) {
+      font-size: 36px;
+    }
+  }
+
+  /* Destaques (Negrito) */
+  .text-destaque {
+    font-family: var(--font-livvic);
+    font-weight: 700;
+    font-size: 18px;
+
+    @media (min-width: 768px) {
+      font-size: 22px;
+    }
+  }
+
+  /* Complemento (Labels e Detalhes) */
+  .text-complemento {
+    font-family: var(--font-londrina);
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+
+    @media (min-width: 768px) {
+      font-size: 22px;
+    }
+  }
+
+  /* Parágrafo (Corpo do Texto) */
+  .text-paragrafo {
+    font-family: var(--font-livvic);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Legendas */
+  .text-subtitulo {
+    font-family: var(--font-livvic);
+    font-weight: 400;
+    font-size: 14px;
+
+    @media (min-width: 768px) {
+      font-size: 16px;
+    }
+  }
+}
