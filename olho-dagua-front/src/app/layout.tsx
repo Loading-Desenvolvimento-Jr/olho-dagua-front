@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Londrina_Solid, Livvic } from "next/font/google";
 import "./globals.css";
+import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 
 const londrina = Londrina_Solid({ 
   weight: ['400', '900'],
@@ -29,10 +31,7 @@ export default function RootLayout({
       <body className="antialiased flex flex-col md:flex-row min-h-screen bg-white-custom text-black-custom">
         
         {/* Desktop Sidebar - Visible only on md screens and up */}
-        <aside className="hidden md:flex w-64 border-r border-black-custom/10">
-          {/* <Sidebar /> will be called here later */}
-          <div className="p-4 font-title text-titulo">Desktop Menu</div>
-        </aside>
+        <Sidebar/>
 
         {/* Main Content Area */}
         <main className="flex-1 pb-24 md:pb-0 overflow-y-auto">
@@ -40,10 +39,9 @@ export default function RootLayout({
         </main>
 
         {/* Mobile TabBar - Fixed at the bottom, hidden on desktop */}
-        <nav className="fixed bottom-0 w-full md:hidden bg-white-custom border-t border-black-custom/10">
-          {/* <TabBar /> will be called here later */}
-          <div className="h-20 flex items-center justify-center font-title">Mobile TabBar</div>
-        </nav>
+        <nav className="md:hidden">          {/* <TabBar /> will be called here later */}
+          <TabBar/>        
+        </nav>  
 
       </body>
     </html>
