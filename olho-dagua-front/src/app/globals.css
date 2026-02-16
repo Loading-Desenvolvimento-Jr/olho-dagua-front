@@ -45,8 +45,19 @@
 
   /* Títulos de Sessão */
   .text-titulo {
+    font-family: var(--font-livvic);
+    font-weight: 200;
+    font-size: 28px;
+
+    @media (min-width: 768px) {
+      font-size: 36px;
+    }
+  }
+
+  /* Títulos de Sessão 2 */
+  .text-titulo2 {
     font-family: var(--font-londrina);
-    font-weight: 400;
+    font-weight: 200;
     font-size: 28px;
 
     @media (min-width: 768px) {
