@@ -18,15 +18,34 @@ const LOCATIONS = [
 ];
 
 interface SearchBarProps {
-  /** Callback to notify parent component about active filters */
   onFilterChange: (filters: string[]) => void;
+  variant?: 'blue' | 'green'; // Prop to control the theme
 }
 
-export function SearchBar({ onFilterChange }: SearchBarProps) {
+export function SearchBar({ onFilterChange, variant = 'blue' }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
 
+  // Theme configuration based on variant
+  const theme = {
+    blue: {
+      border: "border-blue-light",
+      text: "text-blue-dark",
+      chip: "bg-blue-light",
+      hover: "hover:bg-blue-light/5",
+      icon: "text-blue-dark"
+    },
+    green: {
+      border: "border-green-light",
+      text: "text-green-dark",
+      chip: "bg-green-light",
+      hover: "hover:bg-green-light/5",
+      icon: "text-green-dark"
+    }
+  }[variant];
+
+  
   // Filter the dropdown suggestions based on text input and exclude items that are already selected
   const suggestions = LOCATIONS.filter(
     (loc) => 
@@ -54,38 +73,36 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
   };
 
   return (
-    <div className="w-full flex flex-col gap-4 relative z-50">
-      
-      {/* Search Input Area */}
+    <div className="w-full flex flex-col gap-4 relative z-40">
+      {/* Input Area */}
       <div className="relative group">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
-          // Delay blur to allow clicking on suggestions
           onBlur={() => setTimeout(() => setIsFocused(false), 200)} 
           placeholder="Pesquisar..."
           className={cn(
-            "w-full h-14 pl-6 pr-12 rounded-full border-2 border-blue-dark outline-none transition-all",
-            "font-sans text-lg text-blue-dark placeholder:text-blue-dark/50",
-            "focus:border-blue-light focus:shadow-md"
+            "w-full h-14 pl-6 pr-12 rounded-full border-2 outline-none transition-all font-sans text-lg",
+            theme.border,
+            theme.text,
+            "focus:shadow-md bg-white-custom"
           )}
         />
         <Search 
-          className="absolute right-5 top-1/2 -translate-y-1/2 text-blue-dark pointer-events-none" 
-          size={28}
-          strokeWidth={2.5}
+          className={cn("absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none", theme.icon)} 
+          size={28} strokeWidth={2.5}
         />
 
-        {/* Dropdown Suggestions (Only shows when typing) */}
+        {/* Dropdown Suggestions */}
         {isFocused && query.length > 0 && suggestions.length > 0 && (
-          <ul className="absolute top-full mt-2 w-full bg-white-custom border border-blue-light/30 rounded-2xl shadow-xl overflow-hidden z-50">
+          <ul className={cn("absolute top-full mt-2 w-full bg-white-custom border rounded-2xl shadow-xl overflow-hidden z-50", theme.border)}>
             {suggestions.map((location) => (
               <li 
                 key={location}
                 onClick={() => addFilter(location)}
-                className="px-6 py-3 hover:bg-blue-light/10 cursor-pointer font-sans text-blue-dark transition-colors"
+                className={cn("px-6 py-3 cursor-pointer font-sans transition-colors", theme.text, theme.hover)}
               >
                 {location}
               </li>
@@ -94,32 +111,38 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
         )}
       </div>
 
-      {/* Filter Chips (Horizontal Scroll) */}
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      {/* Filter Chips */}
+      <div className="relative w-full">
+       
         
-        {/* 1. Active Filters  */}
-        {selectedFilters.map((filter) => (
-          <button
-            key={filter}
-            onClick={() => removeFilter(filter)}
-            className="flex items-center gap-1 pl-4 pr-2 py-1.5 rounded-full bg-blue-light text-white-custom whitespace-nowrap font-sans font-bold shadow-sm transition-transform active:scale-95"
-          >
-            {filter}
-            <X size={16} strokeWidth={3} />
-          </button>
-        ))}
+        <div className="flex gap-2 overflow-x-auto pb-2 px-2 scrollbar-hide -mx-2">
+          {selectedFilters.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => removeFilter(filter)}
+              className={cn(
+                "shrink-0 flex items-center gap-1 pl-4 pr-2 py-1.5 rounded-full text-white-custom whitespace-nowrap font-sans font-bold shadow-sm transition-transform active:scale-95",
+                theme.chip
+              )}
+            >
+              {filter} <X size={16} strokeWidth={3} />
+            </button>
+          ))}
 
-        {/* Shows remaining options so user can click without typing */}
-        {unselectedOptions.map((option) => (
-          <button
-            key={option}
-            onClick={() => addFilter(option)}
-            className="px-4 py-1.5 rounded-full border border-blue-light text-blue-dark bg-transparent whitespace-nowrap font-sans hover:bg-blue-light/5 transition-colors"
-          >
-            {option}
-          </button>
-        ))}
-
+          {unselectedOptions.map((option) => (
+            <button
+              key={option}
+              onClick={() => addFilter(option)}
+              className={cn(
+                "shrink-0 px-4 py-1.5 rounded-full border bg-transparent whitespace-nowrap font-sans transition-colors",
+                theme.border, theme.text, theme.hover
+              )}
+            >
+              {option}
+            </button>
+          ))}
+          <div className="w-4 shrink-0" />
+        </div>
       </div>
     </div>
   );

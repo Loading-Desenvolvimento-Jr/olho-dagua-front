@@ -5,7 +5,7 @@ import { TabBar } from "@/components/layout/TabBar";
 import { Sidebar } from "@/components/layout/Sidebar";
 
 const londrina = Londrina_Solid({ 
-  weight: ['400', '900'],
+  weight: ['300','400', '900'],
   subsets: ['latin'],
   variable: '--font-londrina',
 })
