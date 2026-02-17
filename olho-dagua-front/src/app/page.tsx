@@ -2,25 +2,37 @@
 
 import { useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { WaterFountainCard } from "@/components/ui/WaterFountainCard";
 
-/**
- * Main page for monitoring water temperature
- */
+// Dados Fakes simulando a resposta da API
+const MOCK_FOUNTAINS = [
+  // Mucambinho
+  { id: 1, name: "Principal", location: "Mucambinho", current_temperature: 4.5, last_updated_time: "10:30", created_at: "", updated_at: "" },
+  { id: 2, name: "Pátio", location: "Mucambinho", current_temperature: 12.0, last_updated_time: "10:35", created_at: "", updated_at: "" },
+  { id: 3, name: "Merendeiro", location: "Mucambinho", current_temperature: 27.0, last_updated_time: "10:40", created_at: "", updated_at: "" },
+  
+  // Odontologia
+  { id: 4, name: "Clínica A", location: "Odontologia", current_temperature: 3.2, last_updated_time: "11:00", created_at: "", updated_at: "" },
+  { id: 5, name: "Recepção", location: "Odontologia", current_temperature: 9.0, last_updated_time: "11:15", created_at: "", updated_at: "" },
+
+  // Biblioteca
+  { id: 6, name: "Entrada", location: "Biblioteca", current_temperature: 18.5, last_updated_time: "09:00", created_at: "", updated_at: "" },
+];
+
 export default function TemperaturePage() {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
-  // Function called whenever the user updates the search bar
-  const handleFilterUpdate = (filters: string[]) => {
-    console.log("Filters active:", filters);
-    setActiveFilters(filters);
-  };
+  // Filtra os bebedouros baseado nos filtros ativos (chips)
+  const filteredFountains = activeFilters.length === 0 
+    ? []
+    : MOCK_FOUNTAINS.filter(fountain => activeFilters.includes(fountain.location));
 
   return (
     <main className="min-h-screen p-6 flex flex-col gap-6 pt-8 pb-32">
       
-      {/* Header Text */}
+      {/* Header */}
       <header>
-        <h1 className="text-titulo text-justify text-blue-dark mb-2">
+        <h1 className="text-titulo text-blue-dark mb-2">
           Cheque se a água tá na{' '}
           <span className="font-sans font-bold text-blue-light">
             TEMPERATURA
@@ -29,28 +41,39 @@ export default function TemperaturePage() {
         </h1>
       </header>
 
-      {/* Search Bar Component */}
+      {/* Barra de Pesquisa */}
       <section>
-        <SearchBar onFilterChange={handleFilterUpdate} />
+        <SearchBar onFilterChange={setActiveFilters} />
       </section>
 
-      {/* Results Area (Placeholder for Cards) */}
-      <section className="flex flex-col gap-4 mt-4">
+      {/* Resultados */}
+      <section className="mt-4">
         {activeFilters.length === 0 ? (
-          <p className="text-center text-gray-400 mt-10 font-sans">
-            Selecione um local acima para ver os bebedouros.
-          </p>
+          // Estado Vazio
+          <div className="flex flex-col items-center justify-center py-20 opacity-50">
+             {/* Você pode colocar um ícone de mapa aqui se quiser */}
+             <p className="text-paragrafo text-center">
+               Selecione um local acima para ver os bebedouros.
+             </p>
+          </div>
         ) : (
-          <div className="p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-            <p className="text-subtitulo text-center mb-2">
-              Mostrando resultados para:
+          <div className="space-y-6">
+            <p className="text-subtitulo ml-1">
+              Encontramos <strong>{filteredFountains.length}</strong> bebedouros:
             </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {activeFilters.map(f => (
-                <span key={f} className="font-bold text-blue-dark">{f}</span>
+            
+            {/* Grid de Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {filteredFountains.map((fountain) => (
+                <WaterFountainCard key={fountain.id} data={fountain} />
               ))}
             </div>
-            {/* Here we will map the Cards later */}
+            
+            {filteredFountains.length === 0 && (
+              <p className="text-center text-orange-dark">
+                Nenhum bebedouro encontrado nestes locais.
+              </p>
+            )}
           </div>
         )}
       </section>
