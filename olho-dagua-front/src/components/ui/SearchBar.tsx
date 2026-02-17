@@ -27,8 +27,7 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
 
-  // Filter the dropdown suggestions based on text input
-  // Exclude items that are already selected
+  // Filter the dropdown suggestions based on text input and exclude items that are already selected
   const suggestions = LOCATIONS.filter(
     (loc) => 
       loc.toLowerCase().includes(query.toLowerCase()) && 
@@ -47,17 +46,17 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
     setIsFocused(false);
   };
 
-  /** Removes a location from the active filter list */
+  // Removes a location from the active filter list
   const removeFilter = (location: string) => {
     const newFilters = selectedFilters.filter((item) => item !== location);
     setSelectedFilters(newFilters);
-    onFilterChange(newFilters); // Notify parent
+    onFilterChange(newFilters);
   };
 
   return (
     <div className="w-full flex flex-col gap-4 relative z-50">
       
-      {/* --- Search Input Area --- */}
+      {/* Search Input Area */}
       <div className="relative group">
         <input
           type="text"
@@ -79,7 +78,7 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
           strokeWidth={2.5}
         />
 
-        {/* --- Dropdown Suggestions (Only shows when typing) --- */}
+        {/* Dropdown Suggestions (Only shows when typing) */}
         {isFocused && query.length > 0 && suggestions.length > 0 && (
           <ul className="absolute top-full mt-2 w-full bg-white-custom border border-blue-light/30 rounded-2xl shadow-xl overflow-hidden z-50">
             {suggestions.map((location) => (
@@ -95,10 +94,10 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
         )}
       </div>
 
-      {/* --- Filter Chips (Horizontal Scroll) --- */}
+      {/* Filter Chips (Horizontal Scroll) */}
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
         
-        {/* 1. Active Filters (Filled Blue) */}
+        {/* 1. Active Filters  */}
         {selectedFilters.map((filter) => (
           <button
             key={filter}
@@ -110,7 +109,6 @@ export function SearchBar({ onFilterChange }: SearchBarProps) {
           </button>
         ))}
 
-        {/* 2. Quick Suggestions / Unselected (Outlined) */}
         {/* Shows remaining options so user can click without typing */}
         {unselectedOptions.map((option) => (
           <button

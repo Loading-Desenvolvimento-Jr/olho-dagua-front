@@ -11,7 +11,7 @@ Components that define the structure of the page or navigation.
 
 ### `/ui`
 Atomic, reusable UI elements. These should be "dumb" components that receive data via props.
-* *Examples:* Buttons, Cards, Status Indicators, Badges.
+* *Examples:* Search Bar, Buttons, Cards, Status Indicators, Badges.
 
 ### `/constants`
 Static data used across components, such as navigation links or configuration arrays.
