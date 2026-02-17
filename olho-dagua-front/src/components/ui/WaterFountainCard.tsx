@@ -1,8 +1,8 @@
 "use client";
 
 import { MapPin, RotateCw, Snowflake } from "lucide-react";
-import { cn, formatTemperature } from "@/lib/utils";
-import { WaterFountain, WaterTemperature } from "@/types/schema";
+import { cn } from "@/lib/utils";
+import { WaterFountain } from "@/types/schema";
 
 interface FountainData extends WaterFountain {
   current_temperature: number;
