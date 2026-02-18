@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV_LINKS } from '../constants/navigation';
-import { type LucideIcon } from 'lucide-react'; // Adicione "type LucideIcon"
+import { type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
@@ -14,17 +14,10 @@ import Image from 'next/image';
 export function Sidebar() {
   const pathname = usePathname();
 
-  // 1. Determine the current theme based on the active route
   // Default to blue (Home) if no match found
   const getThemeColor = () => {
     if (pathname === '/quality') return 'bg-green-light';
-    if (pathname === '/ombudsman') return 'bg-orange-dark'; // A imagem mostra fundo azul na ouvidoria? 
-    // Correção: Na sua lógica anterior, ouvidoria era laranja. Vamos manter a consistência:
-    if (pathname === '/ombudsman') return 'bg-blue-light'; // PERA, na imagem enviada (7e3fbe), o fundo é AZUL CLARO.
-    // Mas você pediu para seguir a lógica dos botões (Ouvidoria = Laranja).
-    // Vou assumir que você quer que o FUNDO MUDDE para Laranja quando for Ouvidoria.
-    
-    // Vamos fazer dinâmico:
+    if (pathname === '/ombudsman') return 'bg-orange-dark';
     if (pathname.includes('quality')) return 'bg-green-light';
     if (pathname.includes('ombudsman')) return 'bg-orange-light';
     return 'bg-blue-light'; // Default (Home/Temperature)
@@ -43,14 +36,13 @@ export function Sidebar() {
     <aside 
       className={cn(
         "hidden md:flex flex-col w-80 h-screen sticky top-0 transition-colors duration-500 ease-in-out p-8",
-        currentBgClass // Applies the dynamic background color
+        currentBgClass 
       )}
     >
       {/* --- Logo Section --- */}
       <div className="flex justify-center mb-12 w-full">
-        {/* Relative container to hold the logo and absolute stars */}
         <div className="relative inline-flex items-center justify-center p-4">
-          
+
           {/* Top-Left Stars */}
           <Image 
             src="/assets/stars_left.svg" 
@@ -84,8 +76,7 @@ export function Sidebar() {
 
       {/* --- Navigation Groups --- */}
       <nav className="flex-1 flex flex-col gap-8">
-        
-        {/* Group 1: Monitoramento */}
+
         <div>
           <h3 className="text-white-custom/80 font-sans text-sm uppercase tracking-widest mb-4 pl-4">
             Monitoramento
@@ -102,13 +93,11 @@ export function Sidebar() {
           </div>
         </div>
 
-        {/* Group 2: Saiba mais */}
         <div>
           <h3 className="text-white-custom/80 font-sans text-sm uppercase tracking-widest mb-4 pl-4">
             Saiba mais
           </h3>
           <div className="flex flex-col gap-3">
-             {/* Taking the last item (Ombudsman) */}
              <SidebarItem 
                 link={NAV_LINKS[2]} 
                 isActive={pathname === NAV_LINKS[2].href}
@@ -119,11 +108,11 @@ export function Sidebar() {
 
       </nav>
 
-      {/* Footer / Loading Indicator (from image) */}
+      {/* / Loading Indicator */}
       <div className="mt-auto">
         <p className="text-white-custom text-center text-sm mb-2 opacity-80">Loading...</p>
-        <div className="w-full h-2 bg-white/30 rounded-full overflow-hidden">
-          <div className="h-full w-2/3 bg-white-custom rounded-full" />
+        <div className="w-full h-2 bg-white/30 overflow-hidden">
+          <div className="h-full w-2/3 bg-white-custom " />
         </div>
       </div>
 

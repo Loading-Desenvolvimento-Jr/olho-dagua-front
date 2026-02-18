@@ -3,6 +3,7 @@ import { Londrina_Solid, Livvic } from "next/font/google";
 import "./globals.css";
 import { TabBar } from "@/components/layout/TabBar";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { NavBar } from "@/components/layout/NavBar";
 
 const londrina = Londrina_Solid({ 
   weight: ['300','400', '900'],
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en" className={`${londrina.variable} ${livvic.variable}`}>
       <body className="antialiased flex flex-col md:flex-row min-h-screen bg-white-custom text-black-custom">
         
+        
         {/* Desktop Sidebar - Visible only on md screens and up */}
         <Sidebar/>
 
@@ -39,7 +41,8 @@ export default function RootLayout({
         </main>
 
         {/* Mobile TabBar - Fixed at the bottom, hidden on desktop */}
-        <nav className="md:hidden">          {/* <TabBar /> will be called here later */}
+         <NavBar/> {/* Top Bar in the mobile version, only for UI/UX */}
+        <nav className="md:hidden">
           <TabBar/>        
         </nav>  
 

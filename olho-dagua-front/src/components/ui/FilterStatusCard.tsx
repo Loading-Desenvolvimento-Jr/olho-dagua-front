@@ -18,31 +18,31 @@ export function FilterStatusCard({ status, name, lastUpdated }: FilterStatusCard
   // Configuration for each status (Colors, Icons, Texts)
   const theme = {
     excellent: {
-      bg: "bg-green-dark", // Green
+      bg: "bg-green-dark",
       title: "Excelente",
       subtitle: "Filtro Limpo",
-      MainIcon: Heart, // The small icon overlay
+      MainIcon: Heart,
     },
     good: {
-      bg: "bg-[#02af5d]", // A slightly lighter green or reuse green-light
+      bg: "bg-[#02af5d]",
       title: "Bom",
       subtitle: "Filtro em uso Regular",
       MainIcon: Check,
     },
     attention: {
-      bg: "bg-orange-dark", // Orange
+      bg: "bg-orange-dark", 
       title: "Atenção",
       subtitle: "Filtro em saturação Parcial",
-      MainIcon: AlertCircle, // ! symbol
+      MainIcon: AlertCircle, 
     },
     maintenance: {
-      bg: "bg-yellow-light", // Yellow
+      bg: "bg-yellow-light", 
       title: "Em Manutenção",
       subtitle: "Filtro em Manutenção",
-      MainIcon: Ban, // Blocked symbol
+      MainIcon: Ban,
     },
     substitute: {
-      bg: "bg-[#dc2626]", // Red (Fixed color since we didn't add it to globals yet)
+      bg: "bg-[#dc2626]", 
       title: "Substituir",
       subtitle: "Filtro Vencido - Substituição Necessária",
       MainIcon: X,
