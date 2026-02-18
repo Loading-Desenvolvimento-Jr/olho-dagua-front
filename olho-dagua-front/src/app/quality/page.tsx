@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { FilterStatusCard, FilterStatus } from "@/components/ui/FilterStatusCard";
+import Image from 'next/image';
 
 const MOCK_FILTERS = [
   { id: 1, name: "Principal", location: "Biblioteca", status: "excellent" as FilterStatus, updated: "15:00" },
@@ -42,10 +43,19 @@ export default function QualityPage() {
       <section className="mt-4">
         {activeFilters.length === 0 ? (
           // Empty state
-          <div className="flex flex-col items-center justify-center py-20 opacity-50">
-            <p className="text-paragrafo text-center">
-              Selecione um local acima para ver os bebedouros.
-            </p>
+          <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
+              <p className="text-paragrafo text-center">
+                Selecione um local acima para ver os bebedouros.
+              </p>
+            <Image 
+                src="/assets/logo_question.svg" 
+                alt="Olho D'água Logo" 
+                width={160} 
+                height={80} 
+                className="object-contain relative z-20"
+                priority 
+              />
+            
           </div>
         ) : (
           <div className="space-y-6">
@@ -70,9 +80,19 @@ export default function QualityPage() {
             </div>
             
             {displayedFilters.length === 0 && (
-              <p className="text-center text-orange-dark">
-                Nenhum bebedouro encontrado nestes locais.
-              </p>
+              <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
+                <p className="text-center text-orange-dark">
+                  Nenhum bebedouro encontrado nestes locais.
+                </p>
+                  <Image 
+                    src="/assets/logo_nervous.svg" 
+                    alt="Olho D'água Logo" 
+                    width={160} 
+                    height={80} 
+                    className="object-contain relative z-20"
+                    priority 
+                  />
+                </div>
             )}
           </div>
         )}

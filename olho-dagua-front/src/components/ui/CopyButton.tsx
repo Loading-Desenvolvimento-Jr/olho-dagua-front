@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface CopyButtonProps {
   textToCopy: string;
-  label?: string; // Texto opcional para mostrar antes
+  label?: string;
 }
 
 export function CopyButton({ textToCopy, label }: CopyButtonProps) {
@@ -16,7 +16,7 @@ export function CopyButton({ textToCopy, label }: CopyButtonProps) {
     try {
       await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reseta após 2 segundos
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Falha ao copiar", err);
     }
@@ -31,8 +31,8 @@ export function CopyButton({ textToCopy, label }: CopyButtonProps) {
         className={cn(
           "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-200 group",
           copied 
-            ? "bg-green-100 border-green-500 text-green-700" 
-            : "bg-white border-gray-300 hover:border-blue-dark hover:text-blue-dark"
+            ? " border-green-500 text-green-700" 
+            : " border-gray-300 hover:border-blue-dark hover:text-blue-dark"
         )}
       >
         <span className="font-mono text-sm font-bold">{textToCopy}</span>

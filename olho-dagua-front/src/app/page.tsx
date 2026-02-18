@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { WaterFountainCard } from "@/components/ui/WaterFountainCard";
+import Image from 'next/image';
 
 // Dados Fakes simulando a resposta da API
 const MOCK_FOUNTAINS = [
@@ -22,7 +23,6 @@ const MOCK_FOUNTAINS = [
 export default function TemperaturePage() {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
-  // Filtra os bebedouros baseado nos filtros ativos (chips)
   const filteredFountains = activeFilters.length === 0 
     ? []
     : MOCK_FOUNTAINS.filter(fountain => activeFilters.includes(fountain.location));
@@ -41,20 +41,28 @@ export default function TemperaturePage() {
         </h1>
       </header>
 
-      {/* Barra de Pesquisa */}
+      {/* Search Bar */}
       <section>
         <SearchBar onFilterChange={setActiveFilters} />
       </section>
 
-      {/* Resultados */}
+      {/* Output */}
       <section className="mt-4">
         {activeFilters.length === 0 ? (
-          // Estado Vazio
-          <div className="flex flex-col items-center justify-center py-20 opacity-50">
-             {/* Você pode colocar um ícone de mapa aqui se quiser */}
+          <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">   
              <p className="text-paragrafo text-center">
                Selecione um local acima para ver os bebedouros.
              </p>
+
+            <Image 
+                src="/assets/logo_question.svg" 
+                alt="Olho D'água Logo" 
+                width={160} 
+                height={80} 
+                className="object-contain relative z-20"
+                priority 
+              />
+            
           </div>
         ) : (
           <div className="space-y-6">
@@ -62,7 +70,7 @@ export default function TemperaturePage() {
               Encontramos <strong>{filteredFountains.length}</strong> bebedouros:
             </p>
             
-            {/* Grid de Cards */}
+            {/* Card's Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {filteredFountains.map((fountain) => (
                 <WaterFountainCard key={fountain.id} data={fountain} />
@@ -70,9 +78,19 @@ export default function TemperaturePage() {
             </div>
             
             {filteredFountains.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
               <p className="text-center text-orange-dark">
                 Nenhum bebedouro encontrado nestes locais.
               </p>
+               <Image 
+                  src="/assets/logo_nervous.svg" 
+                  alt="Olho D'água Logo" 
+                  width={160} 
+                  height={80} 
+                  className="object-contain relative z-20"
+                  priority 
+                />
+              </div>
             )}
           </div>
         )}
