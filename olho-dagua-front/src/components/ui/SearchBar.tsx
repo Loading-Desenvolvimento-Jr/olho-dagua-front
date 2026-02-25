@@ -19,13 +19,15 @@ const LOCATIONS = [
 
 interface SearchBarProps {
   onFilterChange: (filters: string[]) => void;
+  selectedFilters: string[];
   variant?: 'blue' | 'green'; // Prop to control the theme
+  
 }
 
-export function SearchBar({ onFilterChange, variant = 'blue' }: SearchBarProps) {
+export function SearchBar({ onFilterChange, selectedFilters, variant = 'blue' }: SearchBarProps) {
   const [query, setQuery] = useState("");
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
+  
 
   // Theme configuration based on variant
   const theme = {
@@ -59,16 +61,17 @@ export function SearchBar({ onFilterChange, variant = 'blue' }: SearchBarProps) 
   /** Adds a location to the active filter list */
   const addFilter = (location: string) => {
     const newFilters = [...selectedFilters, location];
-    setSelectedFilters(newFilters);
     onFilterChange(newFilters); // Notify parent
     setQuery(""); // Clear input
     setIsFocused(false);
   };
 
+  
+  
+
   // Removes a location from the active filter list
   const removeFilter = (location: string) => {
     const newFilters = selectedFilters.filter((item) => item !== location);
-    setSelectedFilters(newFilters);
     onFilterChange(newFilters);
   };
 

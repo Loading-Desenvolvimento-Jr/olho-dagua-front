@@ -2,21 +2,25 @@
 
 import { Filter, Heart, Check, AlertCircle, Ban, X, RotateCw, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { WaterFountainAPI } from "@/types/schema";
 
 // Define the possible statuses exactly as shown in your design
 export type FilterStatus = 'excellent' | 'good' | 'attention' | 'maintenance' | 'substitute';
 
-interface FilterStatusCardProps {
-  status: FilterStatus;
-  name: string;
-  location: string;
-  lastUpdated: string;
+interface FountainData extends WaterFountainAPI {
+  filterStatus: string;
+  last_updated_time: string;
 }
 
-export function FilterStatusCard({ status, name, lastUpdated }: FilterStatusCardProps) {
+interface FilterStatusCardProps {
+ data: FountainData;
+}
+
+export function FilterStatusCard({ data }: FilterStatusCardProps) {
+  const { name, filterStatus, last_updated_time } = data;
 
   // Configuration for each status (Colors, Icons, Texts)
-  const theme = {
+  const themeConfig = {
     excellent: {
       bg: "bg-green-dark",
       title: "Excelente",
@@ -47,8 +51,10 @@ export function FilterStatusCard({ status, name, lastUpdated }: FilterStatusCard
       subtitle: "Filtro Vencido - Substituição Necessária",
       MainIcon: X,
     }
-  }[status];
+  };
 
+  const normalizedStatus = (filterStatus?.toLowerCase() || 'maintenance') as FilterStatus;
+  const theme = themeConfig[normalizedStatus] || themeConfig.maintenance;
   const StatusIcon = theme.MainIcon;
 
   return (
@@ -60,7 +66,7 @@ export function FilterStatusCard({ status, name, lastUpdated }: FilterStatusCard
       {/* Top Right: Time */}
       <div className="absolute top-4 right-6 flex items-center gap-1 text-white-custom/60 font-subtitulo ">
         <RotateCw size={12} />
-        <span>{lastUpdated}</span>
+        <span>{last_updated_time}</span>
       </div>
 
       {/* Left Icon: Composite (Funnel + Status Icon) */}

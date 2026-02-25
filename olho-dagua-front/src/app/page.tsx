@@ -1,34 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { WaterFountainCard } from "@/components/ui/WaterFountainCard";
+import { useFountains } from "@/hooks/useFountains";
+
 import Image from 'next/image';
-
-// Dados Fakes simulando a resposta da API
-const MOCK_FOUNTAINS = [
-  // Mucambinho
-  { id: 1, name: "Principal", location: "Mucambinho", current_temperature: 4.5, last_updated_time: "10:30", created_at: "", updated_at: "" },
-  { id: 2, name: "Pátio", location: "Mucambinho", current_temperature: 12.0, last_updated_time: "10:35", created_at: "", updated_at: "" },
-  { id: 3, name: "Merendeiro", location: "Mucambinho", current_temperature: 27.0, last_updated_time: "10:40", created_at: "", updated_at: "" },
-  
-  // Odontologia
-  { id: 4, name: "Clínica A", location: "Odontologia", current_temperature: 3.2, last_updated_time: "11:00", created_at: "", updated_at: "" },
-  { id: 5, name: "Recepção", location: "Odontologia", current_temperature: 9.0, last_updated_time: "11:15", created_at: "", updated_at: "" },
-
-  // Biblioteca
-  { id: 6, name: "Entrada", location: "Biblioteca", current_temperature: 18.5, last_updated_time: "09:00", created_at: "", updated_at: "" },
-];
 
 export default function TemperaturePage() {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const { fountains, isLoading, error } = useFountains();
 
+  useEffect(() => {
+    const saved = sessionStorage.getItem('olho-dagua-filters');
+    if (saved) {
+      setTimeout(() => {
+        setActiveFilters(JSON.parse(saved));
+      }, 0);
+    }
+  }, []);
+
+  const handleFilterChange = (filters: string[]) => {
+    setActiveFilters(filters);                                             
+    sessionStorage.setItem('olho-dagua-filters', JSON.stringify(filters)); 
+  };
+
+  
   const filteredFountains = activeFilters.length === 0 
-    ? []
-    : MOCK_FOUNTAINS.filter(fountain => activeFilters.includes(fountain.location));
+    ? [] 
+    : fountains.filter(fountain => activeFilters.includes(fountain.location));
 
+  /**
+   * Helper to extract "HH:MM" from the ISO string "2026-02-18T14:00:00.000Z"
+   */
+  const extractTime = (isoString: string) => {
+      if (!isoString) return "--:--";
+      const date = new Date(isoString);
+      if (isNaN(date.getTime())) return "--:--"; 
+      return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    };
+  
   return (
-    <main className="min-h-screen p-6 flex flex-col gap-6 pt-8 pb-32">
+    <main className=" p-6 flex flex-col gap-6 pt-8 pb-32">
       
       {/* Header */}
       <header>
@@ -43,12 +56,33 @@ export default function TemperaturePage() {
 
       {/* Search Bar */}
       <section>
-        <SearchBar onFilterChange={setActiveFilters} />
+        <SearchBar 
+        onFilterChange={handleFilterChange}
+        selectedFilters={activeFilters} />
       </section>
 
       {/* Output */}
       <section className="mt-4">
-        {activeFilters.length === 0 ? (
+        {/* Handle Loading State */}
+        {isLoading? (
+          <div className="flex justify-center py-20">
+             <div className="w-10 h-10 border-4 border-blue-light border-t-blue-dark rounded-full animate-spin" />
+          </div>
+        ): error? (
+          <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
+              <p className="text-center text-orange-dark">
+                Erro ao carregar dados: {error}
+              </p>
+               <Image 
+                  src="/assets/logo_nervous.svg" 
+                  alt="Olho D'água Logo" 
+                  width={160} 
+                  height={80} 
+                  className="object-contain relative z-20"
+                  priority 
+                />
+            </div>
+        ) : activeFilters.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">   
              <p className="text-paragrafo text-center">
                Selecione um local acima para ver os bebedouros.
@@ -73,8 +107,15 @@ export default function TemperaturePage() {
             {/* Card's Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {filteredFountains.map((fountain) => (
-                <WaterFountainCard key={fountain.id} data={fountain} />
-              ))}
+                  <WaterFountainCard 
+                    key={fountain.id} 
+                    data={{
+                      ...fountain, // Passa TODOS os dados da API automaticamente (id, name, temperature, filterStatus, etc)
+                      current_temperature: fountain.temperature, // Mantemos esse porque o Card usa esse nome na lógica de cor
+                      last_updated_time: extractTime(fountain.updatedAt),
+                    }} 
+                  />
+                ))}
             </div>
             
             {filteredFountains.length === 0 && (
