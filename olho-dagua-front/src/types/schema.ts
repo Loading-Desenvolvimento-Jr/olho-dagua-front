@@ -5,12 +5,14 @@
 
 
 // Table: water_fountains
-export interface WaterFountain {
-  id: number;
+export interface WaterFountainAPI {
+  id: string;
   name: string;
   location: string;
-  created_at: string; // ISO Date string
-  updated_at: string;
+  temperature: number;
+  filterStatus: string;
+  createdAt: string; 
+  updatedAt: string;
 }
 
 // Table: water_temperatures
@@ -43,7 +45,7 @@ export interface FilterChange {
  * Combined type for the UI
  * Sometimes the API might return the fountain with its latest status attached
  */
-export interface FountainWithStatus extends WaterFountain {
+export interface FountainWithStatus extends WaterFountainAPI {
   current_temperature?: number;
   last_filter_change?: string;
   total_consumption?: number;

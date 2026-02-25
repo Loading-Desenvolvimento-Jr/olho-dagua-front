@@ -2,9 +2,9 @@
 
 import { MapPin, RotateCw, Snowflake } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { WaterFountain } from "@/types/schema";
+import { WaterFountainAPI } from "@/types/schema";
 
-interface FountainData extends WaterFountain {
+interface FountainData extends WaterFountainAPI {
   current_temperature: number;
   last_updated_time: string;
 }

@@ -1,27 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
-import { FilterStatusCard, FilterStatus } from "@/components/ui/FilterStatusCard";
-import Image from 'next/image';
+import { FilterStatusCard } from "@/components/ui/FilterStatusCard";
+import { useFountains } from "@/hooks/useFountains";
 
-const MOCK_FILTERS = [
-  { id: 1, name: "Principal", location: "Biblioteca", status: "excellent" as FilterStatus, updated: "15:00" },
-  { id: 2, name: "Saguão", location: "Reitoria", status: "good" as FilterStatus, updated: "12:02" },
-  { id: 3, name: "Merendeiro", location: "Restaurante Universitário", status: "attention" as FilterStatus, updated: "17:00" },
-  { id: 4, name: "Principal", location: "Mucambinho", status: "maintenance" as FilterStatus, updated: "12:00" },
-  { id: 5, name: "Principal", location: "Bloco C", status: "substitute" as FilterStatus, updated: "08:30" },
-];
+import Image from 'next/image';
 
 export default function QualityPage() {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const { fountains, isLoading, error } = useFountains();
 
-  const displayedFilters = activeFilters.length === 0
-    ? []
-    : MOCK_FILTERS.filter(item => activeFilters.includes(item.location));
+
+    useEffect(() => {
+      const saved = sessionStorage.getItem('olho-dagua-filters');
+      if (saved) {
+        setTimeout(() => {
+          setActiveFilters(JSON.parse(saved));
+        }, 0);
+      }
+    }, []);
+
+    const handleFilterChange = (filters: string[]) => {
+    setActiveFilters(filters); // Atualiza a tela atual
+    sessionStorage.setItem('olho-dagua-filters', JSON.stringify(filters));
+  };
+  
+    const filteredFountains = activeFilters.length === 0 
+    ? [] 
+    : fountains.filter(fountain => activeFilters.includes(fountain.location));
+
+    const extractTime = (isoString: string) => {
+      if (!isoString) return "--:--";
+      const date = new Date(isoString);
+      if (isNaN(date.getTime())) return "--:--"; 
+      return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    };
+
 
   return (
-    <main className="min-h-screen p-6 flex flex-col gap-6 pt-8 pb-32">
+    <main className=" p-6 flex flex-col gap-6 pt-8 pb-32">
       
       {/* Header */}
       <header>
@@ -36,12 +54,34 @@ export default function QualityPage() {
 
       {/* Search Bar (Green Variant) */}
       <section>
-        <SearchBar onFilterChange={setActiveFilters} variant="green" />
+        <SearchBar 
+        onFilterChange={handleFilterChange}
+        selectedFilters={activeFilters}
+        variant="green"
+      />;
       </section>
 
       {/* Results */}
       <section className="mt-4">
-        {activeFilters.length === 0 ? (
+      {isLoading? (
+        <div className="flex justify-center py-20">
+             <div className="w-10 h-10 border-4 border-green-light border-t-green-dark rounded-full animate-spin" />
+        </div>
+      ): error? (
+        <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
+          <p className="text-center text-orange-dark">
+            Erro ao carregar dados: {error}
+          </p>
+          <Image 
+              src="/assets/logo_nervous.svg" 
+              alt="Olho D'água Logo" 
+              width={160} 
+              height={80} 
+              className="object-contain relative z-20"
+              priority 
+            />
+        </div>
+      ) : activeFilters.length === 0 ? (
           // Empty state
           <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
               <p className="text-paragrafo text-center">
@@ -55,31 +95,28 @@ export default function QualityPage() {
                 className="object-contain relative z-20"
                 priority 
               />
-            
           </div>
         ) : (
           <div className="space-y-6">
             <p className="text-subtitulo ml-1">
-              Encontramos <strong>{displayedFilters.length}</strong> bebedouros:
+              Encontramos <strong>{filteredFountains.length}</strong> bebedouros:
             </p>
             
+            
             {/* Grid Cards */}
-            
-            
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {displayedFilters.map((fountain) => (
-                // CORREÇÃO 2: Passando as props corretamente individualmente
+              {filteredFountains.map((fountain) => (
                 <FilterStatusCard 
-                  key={fountain.id} 
-                  status={fountain.status}
-                  name= {fountain.name}
-                  location={fountain.location}
-                  lastUpdated={fountain.updated} // Note que aqui mapeamos 'updated' para 'lastUpdated'
+                   key={fountain.id} 
+                    data={{
+                      ...fountain, 
+                      last_updated_time: extractTime(fountain.updatedAt),
+                    }}
                 />
               ))}
             </div>
             
-            {displayedFilters.length === 0 && (
+            {filteredFountains.length === 0 && (
               <div className="flex flex-col items-center justify-center py-20 opacity-80 gap-8">
                 <p className="text-center text-orange-dark">
                   Nenhum bebedouro encontrado nestes locais.
