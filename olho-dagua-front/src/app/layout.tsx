@@ -34,7 +34,8 @@ export default function RootLayout({
         
         {/* Desktop Sidebar - Visible only on md screens and up */}
         <Sidebar/>
-
+         {/* Mobile TabBar - Fixed at the bottom, hidden on desktop */}
+        <NavBar/> {/* Top Bar in the mobile version, only for UI/UX */}
         {/* Main Content Area */}
         <main className="flex-1 pb-24 md:pb-0 overflow-y-auto">
           {children}
