@@ -16,7 +16,7 @@ This project aims to provide transparency and ensure the well-being of the acade
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/olho-dagua-front.git](https://github.com/your-username/olho-dagua-front.git)
+    git clone https://github.com/Loading-Desenvolvimento-Jr/olho-dagua-front.git
     ```
 
 2.  **Install dependencies:**
