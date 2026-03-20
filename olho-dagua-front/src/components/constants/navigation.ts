@@ -7,24 +7,24 @@ import { ThermometerSnowflake, GlassWater, MessageCircleHeart } from 'lucide-rea
 
 export const NAV_LINKS = [
   { 
-    label: 'Temperature', 
+    label: 'Temperatura', 
     href: '/', 
     icon: ThermometerSnowflake,
     activeColor: 'bg-blue-dark',
     activeIconColor: 'text-blue-dark' 
   },
   { 
-    label: 'Water Quality', 
+    label: 'Status do Filtro', 
     href: '/quality', 
     icon: GlassWater,
     activeColor: 'bg-green-dark',
     activeIconColor: 'text-green-dark'
   },
   { 
-    label: 'Ombudsman', 
+    label: 'Ouvidoria', 
     href: '/ombudsman', 
     icon: MessageCircleHeart,
-    activeColor: 'bg-orange-dark',
+    activeColor: 'bg-purple-dark',
     activeIconColor: 'text-orange-dark'
   },
 ];

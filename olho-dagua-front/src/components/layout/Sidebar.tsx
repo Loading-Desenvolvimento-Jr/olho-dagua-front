@@ -14,13 +14,15 @@ import Image from 'next/image';
 export function Sidebar() {
   const pathname = usePathname();
 
-  // Default to blue (Home) if no match found
+  // Atualizado: Agora retorna os gradientes com as cores hexadecimais passadas
   const getThemeColor = () => {
-    if (pathname === '/quality') return 'bg-green-light';
-    if (pathname === '/ombudsman') return 'bg-orange-dark';
-    if (pathname.includes('quality')) return 'bg-green-light';
-    if (pathname.includes('ombudsman')) return 'bg-orange-light';
-    return 'bg-blue-light'; // Default (Home/Temperature)
+    if (pathname === '/quality' || pathname.includes('quality')) {
+      return 'bg-gradient-to-b from-[#13E984] to-[#036430]';
+    }
+    if (pathname === '/ombudsman' || pathname.includes('ombudsman')) {
+      return 'bg-gradient-to-b from-[#C978FF] to-[#401E56]';
+    }
+    return 'bg-gradient-to-b from-[#67CCFA] to-[#0255BC]'; // Default (Home/Temperature)
   };
 
   const getTextColor = (path: string) => {
@@ -35,7 +37,7 @@ export function Sidebar() {
   return (
     <aside 
       className={cn(
-        "hidden md:flex flex-col w-80 h-screen sticky top-0 transition-colors duration-500 ease-in-out p-8",
+        "hidden md:flex flex-col w-72 h-screen sticky top-0 transition-colors duration-500 ease-in-out p-8",
         currentBgClass 
       )}
     >
@@ -43,14 +45,6 @@ export function Sidebar() {
       <div className="flex justify-center mb-12 w-full">
         <div className="relative inline-flex items-center justify-center p-4">
 
-          {/* Top-Left Stars */}
-          <Image 
-            src="/assets/stars_left.svg" 
-            alt="Decorative stars" 
-            width={40} 
-            height={40} 
-            className="absolute -top-2 -left-6 z-10 " 
-          />
 
           {/* Main Horizontal Logo */}
           <Image 
@@ -62,14 +56,6 @@ export function Sidebar() {
             priority 
           />
 
-          {/* Bottom-Right Stars */}
-          <Image 
-            src="/assets/stars_right.svg" 
-            alt="Decorative stars" 
-            width={40} 
-            height={40} 
-            className="absolute -bottom-2 -right-6 z-10"
-          />
           
         </div>
       </div>
@@ -108,25 +94,13 @@ export function Sidebar() {
 
       </nav>
 
-      {/* / Loading Indicator */}
-      <div className="mt-auto">
-        <p className="text-white-custom text-center text-sm mb-2 opacity-80">Loading...</p>
-        <div className="w-full h-2 bg-white/30 overflow-hidden">
-          <div className="h-full w-2/3 bg-white-custom " />
-        </div>
-      </div>
-
     </aside>
   );
 }
-
-// --- Helper Component for individual items ---
 function SidebarItem({ 
   link, 
-  isActive, 
-  activeTextColor 
+  isActive,  
 }: { 
-  // We define the specific shape of the 'link' object here
   link: {
     label: string;
     href: string;
@@ -136,18 +110,67 @@ function SidebarItem({
   activeTextColor: string;
 }) {
   const Icon = link.icon;
+
+  const getThemeColors = (path: string) => {
+    if (path === '/quality' || path.includes('quality')) {
+      return {
+        text: 'text-[#09C168]', // Verde vibrante
+        gradient: 'bg-gradient-to-b from-[#7FE4B4] to-[#1C8250]'
+      };
+    }
+    if (path === '/ombudsman' || path.includes('ombudsman')) {
+      return {
+        text: 'text-[#9A55CA]', // Roxo vibrante
+        gradient: 'bg-gradient-to-r from-[#A4A1C3] to-[#7228A4]'
+      };
+    }
+    return {
+      text: 'text-[#17A1FA]', // Azul vibrante
+      gradient: 'bg-gradient-to-b from-[#67CCFA] to-[#0255BC]'
+    };
+  };
+
+  const theme = getThemeColors(link.href);
+
   return (
     <Link
       href={link.href}
       className={cn(
-        "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-title text-xl",
+        // 1. REMOVI O `font-title` DAQUI! 
+        // 3. ADICIONADO `transform-gpu` para forçar renderização suave e corrigir serrilhado
+        "relative flex items-center gap-5 px-6 py-3 rounded-2xl transition-all duration-300 overflow-hidden transform-gpu",
         isActive 
-          ? `bg-white-custom shadow-lg ${activeTextColor}` // Active: White bg, colored text
-          : "text-white-custom hover:bg-white/10"          // Inactive: White text, transparent bg
+          ? "bg-white-custom shadow-lg ring-1 ring-black/5" // ADICIONADO `ring-1` para disfarçar pixels na borda
+          : "hover:bg-white/10"         
       )}
     >
-      <Icon size={28} strokeWidth={isActive ? 2.5 : 2} />
-      <span>{link.label}</span>
+      {/* O círculo/pílula de degradê */}
+      <div 
+        className={cn(
+          "absolute -left-10 rounded-r-full transition-all duration-300 ease-out z-0",
+          theme.gradient,
+          // ADICIONADO `shadow-[0_0_2px_rgba(0,0,0,0.1)]` para suavizar a curva contra o fundo branco
+          isActive ? "w-26 h-26 opacity-100 shadow-[0_0_2px_rgba(0,0,0,0.1)]" : "w-0 opacity-0"
+        )} 
+      />
+
+      {/* Ícone */}
+      <div className="relative z-10 flex items-center justify-center">
+        <Icon 
+          size={28} 
+          strokeWidth={isActive ? 2.5 : 2} 
+          className="text-white-custom" 
+        />
+      </div>
+      
+      {/* Texto */}
+      <span className={cn(
+        // 2. ADICIONEI `font-sans` e um peso `font-medium` aqui junto com o seu text-paragrafo
+        "relative z-10 transition-colors duration-300 text-paragrafo font-sans font-bold", 
+        isActive ? theme.text : "text-white-custom"
+      )}>
+        {link.label}
+      </span>
     </Link>
   );
 }
