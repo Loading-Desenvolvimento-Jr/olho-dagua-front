@@ -4,7 +4,9 @@ import { WaterFountainAPI } from '@/types/schema';
 /**
  * Custom hook to fetch water fountains data
  * Currently using mock data until backend API is ready
- */
+*/
+
+
 export function useFountains() {
   const [fountains, setFountains] = useState<WaterFountainAPI[]>([]);
   const [isLoading, setIsLoading] = useState(true);

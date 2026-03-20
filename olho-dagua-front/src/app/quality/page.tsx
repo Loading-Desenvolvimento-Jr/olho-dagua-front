@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { FilterStatusCard } from "@/components/ui/FilterStatusCard";
 import { useFountains } from "@/hooks/useFountains";
+import { extractTime } from "@/lib/utils";
 
 import Image from 'next/image';
 
@@ -30,12 +31,6 @@ export default function QualityPage() {
     ? [] 
     : fountains.filter(fountain => activeFilters.includes(fountain.location));
 
-    const extractTime = (isoString: string) => {
-      if (!isoString) return "--:--";
-      const date = new Date(isoString);
-      if (isNaN(date.getTime())) return "--:--"; 
-      return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    };
 
 
   return (

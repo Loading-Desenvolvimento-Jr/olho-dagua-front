@@ -34,14 +34,14 @@ export function SearchBar({ onFilterChange, selectedFilters, variant = 'blue' }:
     blue: {
       border: "border-blue-light",
       text: "text-blue-dark",
-      chip: "bg-blue-light",
+      chip: "bg-blue-light/80",
       hover: "hover:bg-blue-light/5",
       icon: "text-blue-dark"
     },
     green: {
       border: "border-green-light",
       text: "text-green-dark",
-      chip: "bg-green-light",
+      chip: "bg-green-light/80",
       hover: "hover:bg-green-light/5",
       icon: "text-green-dark"
     }
@@ -87,10 +87,10 @@ export function SearchBar({ onFilterChange, selectedFilters, variant = 'blue' }:
           onBlur={() => setTimeout(() => setIsFocused(false), 200)} 
           placeholder="Pesquisar..."
           className={cn(
-            "w-full h-14 pl-6 pr-12 rounded-full border-2 outline-none transition-all font-sans text-lg",
+            "w-full h-14 pl-6 pr-12 rounded-2xl border-0 outline-none transition-all font-sans text-lg",
             theme.border,
             theme.text,
-            "focus:shadow-md bg-white-custom"
+            "shadow-md bg-[#FFFFFF]"
           )}
         />
         <Search 
@@ -100,7 +100,7 @@ export function SearchBar({ onFilterChange, selectedFilters, variant = 'blue' }:
 
         {/* Dropdown Suggestions */}
         {isFocused && query.length > 0 && suggestions.length > 0 && (
-          <ul className={cn("absolute top-full mt-2 w-full bg-white-custom border rounded-2xl shadow-xl overflow-hidden z-50", theme.border)}>
+          <ul className={cn("absolute top-full mt-2 w-full bg-[#FFFFFF] border rounded-2xl shadow-xl overflow-hidden z-50", theme.border)}>
             {suggestions.map((location) => (
               <li 
                 key={location}
@@ -114,17 +114,17 @@ export function SearchBar({ onFilterChange, selectedFilters, variant = 'blue' }:
         )}
       </div>
 
-      {/* Filter Chips */}
+    {/* Filter Chips */}
       <div className="relative w-full">
-       
-        
         <div className="flex gap-2 overflow-x-auto pb-2 px-2 scrollbar-hide -mx-2">
+          
           {selectedFilters.map((filter) => (
             <button
               key={filter}
               onClick={() => removeFilter(filter)}
               className={cn(
-                "shrink-0 flex items-center gap-1 pl-4 pr-2 py-1.5 rounded-full text-white-custom whitespace-nowrap font-sans font-bold shadow-sm transition-transform active:scale-95",
+                // ADICIONADO: border border-transparent para igualar o tamanho da caixa
+                "shrink-0 flex items-center gap-1 pl-4 pr-2 py-1.5 rounded-full border border-transparent text-white-custom whitespace-nowrap font-sans font-bold shadow-sm transition-transform active:scale-95",
                 theme.chip
               )}
             >
@@ -137,13 +137,15 @@ export function SearchBar({ onFilterChange, selectedFilters, variant = 'blue' }:
               key={option}
               onClick={() => addFilter(option)}
               className={cn(
-                "shrink-0 px-4 py-1.5 rounded-full border bg-transparent whitespace-nowrap font-sans transition-colors",
+                // ADICIONADO: flex items-center para igualar o comportamento do texto
+                "shrink-0 flex items-center px-4 py-1.5 rounded-full border bg-transparent whitespace-nowrap font-sans transition-colors",
                 theme.border, theme.text, theme.hover
               )}
             >
               {option}
             </button>
           ))}
+          
           <div className="w-4 shrink-0" />
         </div>
       </div>

@@ -4,7 +4,6 @@ import { Filter, Heart, Check, AlertCircle, Ban, X, RotateCw, MapPin } from "luc
 import { cn } from "@/lib/utils";
 import { WaterFountainAPI } from "@/types/schema";
 
-// Define the possible statuses exactly as shown in your design
 export type FilterStatus = 'excellent' | 'good' | 'attention' | 'maintenance' | 'substitute';
 
 interface FountainData extends WaterFountainAPI {
@@ -13,13 +12,14 @@ interface FountainData extends WaterFountainAPI {
 }
 
 interface FilterStatusCardProps {
- data: FountainData;
+  data: FountainData;
+  className?: string; // Sempre bom permitir passar classes extras
 }
 
-export function FilterStatusCard({ data }: FilterStatusCardProps) {
+export function FilterStatusCard({ data, className }: FilterStatusCardProps) {
   const { name, filterStatus, last_updated_time } = data;
 
-  // Configuration for each status (Colors, Icons, Texts)
+  // Configuração das cores mantida exatamente igual à sua
   const themeConfig = {
     excellent: {
       bg: "bg-green-dark",
@@ -59,41 +59,44 @@ export function FilterStatusCard({ data }: FilterStatusCardProps) {
 
   return (
     <div className={cn(
-      "w-full rounded-4xl p-5 flex items-center gap-5 shadow-lg relative overflow-hidden transition-transform hover:scale-[1.02]",
-      theme.bg
+      // Base: altura mínima, padding ajustado e overflow-hidden para o círculo
+      "w-full min-h-40 rounded-4xl p-6 flex items-center gap-6 shadow-md relative overflow-hidden transform-gpu transition-transform hover:scale-[1.02]",
+      theme.bg,
+      className
     )}>
       
-      {/* Top Right: Time */}
-      <div className="absolute top-4 right-6 flex items-center gap-1 text-white-custom/60 font-subtitulo ">
-        <RotateCw size={12} />
-        <span>{last_updated_time}</span>
+      {/* --- A MÁGICA DO CÍRCULO COM DEGRADÊ (Direita) --- */}
+      {/* Fica encostado na direita e o degradê vai clareando para a esquerda */}
+      <div className="absolute -right-8 top-0 bottom-0 w-[60%] h-96 bg-linear-to-b from-transparent to-white/60  rounded-l-full pointer-events-none z-0" />
+
+      {/* Top Right: Time (Z-10 para ficar em cima do degradê) */}
+      <div className="absolute top-5 right-6 flex items-center gap-1.5 text-white-custom font-subtitulo z-10 opacity-90">
+        <RotateCw size={14} />
+        <span className="font-bold">{last_updated_time}</span>
       </div>
 
-      {/* Left Icon: Composite (Funnel + Status Icon) */}
-      <div className="relative shrink-0 ml-2">
-        {/* Base Funnel Icon */}
-        <Filter size={64} className="text-white-custom/60" strokeWidth={1.5} />
-        
-        {/* Overlay Status Icon (Heart, Check, etc) */}
+      {/* Bottom Left: Location (Movido para cá!) */}
+      <div className="absolute bottom-5 left-6 flex items-center gap-1.5 text-white-custom font-subtitulo z-10 opacity-90">
+        <MapPin size={16} />
+        <span className="font-medium truncate">{name}</span>
+      </div>
+
+      {/* Left Icon: Composite (Adicionado um leve margin-bottom para alinhar visualmente com o texto) */}
+      <div className="relative shrink-0 ml-1 mb-2 z-10">
+        <Filter size={68} className="text-white-custom/60" strokeWidth={1.5} />
         <div className="absolute bottom-0 -right-1 text-white-custom drop-shadow-md">
-           <StatusIcon size={32} strokeWidth={3} />
+           <StatusIcon size={36} strokeWidth={3} />
         </div>
       </div>
 
-      {/* Content Info */}
-      <div className="flex flex-col flex-1 pt-4">
-        <h2 className="font-title text-4xl text-white-custom leading-none mb-1 mt-2">
+      {/* Middle Content Info */}
+      <div className="relative flex flex-col flex-1 justify-center mb-2 z-10">
+        <h2 className="font-title text-4xl text-white-custom leading-none mb-1 drop-shadow-sm">
           {theme.title}
         </h2>
-        <p className="font-paragrafo text-white-custom/90 leading-tight mb-3">
+        <p className="font-paragrafo text-white-custom/90 leading-tight">
           {theme.subtitle}
         </p>
-        
-        {/* Location Badge */}
-        <div className="flex items-center gap-1 text-white-custom font-subtitulo">
-          <MapPin size={16} className="text-white-custom/70" />
-          <span>{name}</span>
-        </div>
       </div>
 
     </div>
