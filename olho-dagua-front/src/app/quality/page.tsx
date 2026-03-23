@@ -53,7 +53,7 @@ export default function QualityPage() {
         onFilterChange={handleFilterChange}
         selectedFilters={activeFilters}
         variant="green"
-      />;
+      />
       </section>
 
       {/* Results */}

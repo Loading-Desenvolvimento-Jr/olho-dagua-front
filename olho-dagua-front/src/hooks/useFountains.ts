@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import { WaterFountainAPI } from '@/types/schema';
 
-/**
- * Custom hook to fetch water fountains data
- * Currently using mock data until backend API is ready
-*/
-
+const CACHE_KEY = 'olho-dagua-fountains-cache';
+const CACHE_EXPIRATION_MS = 19 * 60 * 1000;                           // 10 minutos de intervalo
 
 export function useFountains() {
   const [fountains, setFountains] = useState<WaterFountainAPI[]>([]);
@@ -13,24 +10,24 @@ export function useFountains() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: Replace with real API call
-    // fetch('/api/fountains')...
-    
-    // Simulating API delay
-    // const mockData: WaterFountain[] = [
-    //   {
-    //     id: "1",
-    //     name: "Library Hall",
-    //     location: "Block C - Ground Floor",
-    //     temperature: 15,
-    //     created_at: new Date().toISOString(),
-    //     updated_at: new Date().toISOString(),
-    //   }
-    // ];
-
     async function fetchFountains() {
       try {
-        // Calling your local API
+        // Verificação
+        const cachedDataString = sessionStorage.getItem(CACHE_KEY);
+        
+        if (cachedDataString) {
+          const cachedData = JSON.parse(cachedDataString);
+          const now = Date.now();
+
+          // Comparativo do tempo
+          if (now - cachedData.timestamp < CACHE_EXPIRATION_MS) {
+            setFountains(cachedData.data);
+            setIsLoading(false);
+            return; // O 'return' encerra a função aqui, impedindo o fetch na API
+          }
+        }
+
+        // Caso seja seja a 1 vez ou expirou o tempo
         const response = await fetch('https://p3k19h7c-3000.brs.devtunnels.ms/water-fountains/');
         
         if (!response.ok) {
@@ -38,15 +35,20 @@ export function useFountains() {
         }
 
         const data: WaterFountainAPI[] = await response.json();
+        
+        // Salva os dados
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+          data: data,
+          timestamp: Date.now()
+        }));
+
         setFountains(data);
       } catch (err: unknown) {
         console.error("API Fetch Error:", err);
         
-        // Verificamos se 'err' é uma instância real de um Erro do JavaScript
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          // Se for outra coisa (ex: o servidor retornou apenas uma string), usamos uma mensagem genérica
           setError('Ocorreu um erro desconhecido ao buscar os dados.');
         }
       } finally {
@@ -54,8 +56,8 @@ export function useFountains() {
       }
     }
 
-fetchFountains();
-  }, []); // Empty dependency array means this runs once when the component mounts
+    fetchFountains();
+  }, []);
 
   return { fountains, isLoading, error };
 }
