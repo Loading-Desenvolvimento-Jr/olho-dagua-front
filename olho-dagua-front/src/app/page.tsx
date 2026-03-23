@@ -101,7 +101,6 @@ export default function TemperaturePage() {
                     key={fountain.id} 
                     data={{
                       ...fountain, // Passa TODOS os dados da API automaticamente (id, name, temperature, filterStatus, etc)
-                      current_temperature: fountain.temperature, // Mantemos esse porque o Card usa esse nome na lógica de cor
                       last_updated_time: extractTime(fountain.updatedAt),
                     }} 
                   />
