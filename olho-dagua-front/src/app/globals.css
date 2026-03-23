@@ -6,20 +6,20 @@
   --font-sans: var(--font-livvic);
 
   /* Cores */
-  --color-yellow-light: #fdc005;
-  --color-yellow-dark: #fba301;
-  --color-blue-light: #02adfc;
-  --color-blue-dark: #006bef;
-  --color-white-custom: #f8f5f0;
-  --color-orange-light: #fe7e03;
-  --color-orange-dark: #f96000;
-  --color-black-custom: #14110c;
-  --color-pink-light: #fcaad2;
-  --color-pink-dark: #fa82bf;
-  --color-purple-light: #b591d8;
-  --color-purple-dark: #a870cd;
-  --color-green-light: #02af5d;
-  --color-green-dark: #029346;
+  --color-yellow-light:   #fdc005;
+  --color-yellow-dark:    #fba301;
+  --color-blue-light:     #02adfc;
+  --color-blue-dark:      #006bef;
+  --color-white-custom:   #f8f5f0;
+  --color-orange-light:   #fe7e03;
+  --color-orange-dark:    #f96000;
+  --color-black-custom:   #14110c;
+  --color-pink-light:     #fcaad2;
+  --color-pink-dark:      #fa82bf;
+  --color-purple-light:   #b591d8;
+  --color-purple-dark:    #a870cd;
+  --color-green-light:    #02af5d;
+  --color-green-dark:     #029346;
 }
 
 /* Configuração Padrão */
@@ -106,4 +106,23 @@
       font-size: 16px;
     }
   }
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Esconde a barra de rolagem no Firefox, IE e Edge */
+body {
+  -ms-overflow-style: none;  /* IE e Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* Cria a classe utilitária scrollbar-hide que você usou nos chips */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

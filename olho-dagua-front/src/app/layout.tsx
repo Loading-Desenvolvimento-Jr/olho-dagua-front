@@ -42,7 +42,6 @@ export default function RootLayout({
         </main>
 
         {/* Mobile TabBar - Fixed at the bottom, hidden on desktop */}
-         <NavBar/> {/* Top Bar in the mobile version, only for UI/UX */}
         <nav className="md:hidden">
           <TabBar/>        
         </nav>  

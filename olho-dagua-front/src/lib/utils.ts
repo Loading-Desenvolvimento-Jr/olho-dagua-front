@@ -32,3 +32,14 @@ export function getFilterStatus(lastChangeDate: string): 'Good' | 'Warning' | 'B
   if (diffDays < 180) return 'Warning'; // Between 5 and 6 months
   return 'Bad';                         // More than 6 months
 }
+
+/**
+ * Helper to extract "HH:MM" from the ISO string "2026-02-18T14:00:00.000Z"
+ */
+
+export const extractTime = (isoString: string) => {
+    if (!isoString) return "--:--";
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return "--:--"; 
+    return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  };

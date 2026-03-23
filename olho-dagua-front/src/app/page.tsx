@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { WaterFountainCard } from "@/components/ui/WaterFountainCard";
 import { useFountains } from "@/hooks/useFountains";
+import { extractTime } from "@/lib/utils";
 
 import Image from 'next/image';
 
@@ -25,21 +26,10 @@ export default function TemperaturePage() {
     sessionStorage.setItem('olho-dagua-filters', JSON.stringify(filters)); 
   };
 
-  
   const filteredFountains = activeFilters.length === 0 
     ? [] 
     : fountains.filter(fountain => activeFilters.includes(fountain.location));
 
-  /**
-   * Helper to extract "HH:MM" from the ISO string "2026-02-18T14:00:00.000Z"
-   */
-  const extractTime = (isoString: string) => {
-      if (!isoString) return "--:--";
-      const date = new Date(isoString);
-      if (isNaN(date.getTime())) return "--:--"; 
-      return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    };
-  
   return (
     <main className=" p-6 flex flex-col gap-6 pt-8 pb-32">
       
@@ -111,7 +101,6 @@ export default function TemperaturePage() {
                     key={fountain.id} 
                     data={{
                       ...fountain, // Passa TODOS os dados da API automaticamente (id, name, temperature, filterStatus, etc)
-                      current_temperature: fountain.temperature, // Mantemos esse porque o Card usa esse nome na lógica de cor
                       last_updated_time: extractTime(fountain.updatedAt),
                     }} 
                   />

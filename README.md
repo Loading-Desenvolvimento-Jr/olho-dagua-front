@@ -1,9 +1,4 @@
-<div align="center">
-  <img src="./olho-dagua-front/public/assets/Wallpaper.png" alt="Profile Header" width="full">
-</div>
-
-
-# Olho D'água - Frontend
+# 💧 Olho D'água - Frontend
 
 **Olho D'água** is a mobile-first web application designed to monitor the water quality and temperature of drinking fountains at the Federal University of Ceará (UFC). 
 
@@ -21,7 +16,7 @@ This project aims to provide transparency and ensure the well-being of the acade
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Loading-Desenvolvimento-Jr/olho-dagua-front.git
+    git clone [https://github.com/your-username/olho-dagua-front.git](https://github.com/your-username/olho-dagua-front.git)
     ```
 
 2.  **Install dependencies:**
@@ -56,11 +51,9 @@ We use a custom "Neo-Brutalism" inspired design system with specific tokens conf
     * `bg-green-light` / `bg-green-dark` (Good quality)
     * `bg-yellow-light` / `bg-yellow-dark` (Warning)
 
-## 🤝 Dev Team
+## 🤝 Contributing
 
-<table align="center">
-  <tr >
-    <td align="center"><a href="https://github.com/Miguel-Edson"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/124218124?v=4" width="100px;" alt=""/><br /><sub><b>Miguel Edson</b></sub></a><br />🖱
-    <td align="center"><a href="https://github.com/pab-h"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/74771892?v=4" width="100px;" alt=""/><br /><sub><b>Pablo HUgo</b></sub></a><br />🖱
-  </tr>
-</table>
+1.  Create a feature branch (`git checkout -b feat/amazing-feature`).
+2.  Commit your changes (`git commit -m 'Add some amazing feature'`).
+3.  Push to the branch (`git push origin feat/amazing-feature`).
+4.  Open a Pull Request.
