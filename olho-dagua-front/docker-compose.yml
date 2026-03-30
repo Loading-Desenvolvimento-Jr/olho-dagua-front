@@ -1,0 +1,9 @@
+services:
+  frontend:
+    container_name: olho-dagua-front-app
+    
+    build: .
+
+    ports:
+      - "3000:3000"
+    
