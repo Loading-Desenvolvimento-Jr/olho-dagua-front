@@ -28,7 +28,7 @@ export function useFountains() {
         }
 
         // Caso seja seja a 1 vez ou expirou o tempo
-        const response = await fetch('https://p3k19h7c-3000.brs.devtunnels.ms/water-fountains/');
+        const response = await fetch('http://localhost:3000/water-fountains/');
         
         if (!response.ok) {
           throw new Error('Failed to fetch water fountains data');
