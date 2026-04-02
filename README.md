@@ -1,59 +1,73 @@
-# 💧 Olho D'água - Frontend
+<div align="center">
+  <img src="../olho-dagua-front/assets/Cover.png" alt="Profile Header" width="full">
+</div>
 
-**Olho D'água** is a mobile-first web application designed to monitor the water quality and temperature of drinking fountains at the Federal University of Ceará (UFC). 
+<br></br>
 
-This project aims to provide transparency and ensure the well-being of the academic community by displaying real-time data collected from IoT sensors.
+# 💧 Olho D'água - Front-end
 
-## 🚀 Tech Stack
+Este é o repositório front-end do projeto **Olho D'água**, uma aplicação focada no monitoramento inteligente da qualidade da água e temperatura de bebedouros utilizando sistemas embarcados.
 
-* **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
-* **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
-* **Language:** TypeScript
-* **Icons:** [Lucide React](https://lucide.dev/)
-* **Fonts:** Google Fonts (Londrina Solid & Livvic)
+## 🚀 Tecnologias Utilizadas
 
-## 🛠️ Getting Started
+O projeto foi construído com as melhores e mais modernas tecnologias do ecossistema front-end:
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/your-username/olho-dagua-front.git](https://github.com/your-username/olho-dagua-front.git)
-    ```
+* **[Next.js](https://nextjs.org)** - Framework React para renderização e rotas.
+* **[React](https://react.dev/)** - Biblioteca de construção de interfaces.
+* **[Tailwind CSS](https://tailwindcss.com/)** - Estilização utilitária e design responsivo (Mobile-First).
+* **[Lucide React](https://lucide.dev/)** - Ícones limpos e consistentes.
+* **[Jest](https://jestjs.io/pt-BR/) & React Testing Library** - Testes unitários para garantir a qualidade dos componentes.
+* **[Docker](https://www.docker.com/) & Docker Compose** - Containerização para facilitar a execução em qualquer ambiente.
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+## ✨ Funcionalidades
 
-3.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+* 🌡️ **Monitoramento de Temperatura:** Cards visuais e dinâmicos que mudam de cor (Azul, Amarelo, Laranja) conforme a temperatura atual da água.
+* 🚰 **Status dos Filtros:** Acompanhamento em tempo real da vida útil dos filtros (Excelente, Bom, Atenção, Manutenção, Substituir).
+* 🔍 **Busca e Filtros Dinâmicos:** Barra de pesquisa inteligente com seleção de múltiplos locais.
+* ⚡ **Performance Otimizada:** Sistema de cache de 5 minutos (via `sessionStorage`) para requisições da API, economizando dados e garantindo carregamento instantâneo.
+* 📱 **Design Responsivo:** Interface fluida que se adapta perfeitamente a celulares, tablets e desktops.
 
-4.  Open [http://localhost:3000](http://localhost:3000) with your browser.
+---
 
-## 📂 Project Structure
+## 🛠️ Como executar o projeto
 
-* `src/app`: Application routes (Pages).
-* `src/components`: Reusable UI elements and layout structures.
-* `src/hooks`: Custom React hooks for data fetching and state logic.
-* `src/lib`: Utility functions and business logic helpers.
-* `src/types`: TypeScript definitions matching the database schema.
+Você pode rodar este projeto de duas maneiras: a forma tradicional (via Node) ou utilizando o Docker.
 
-## 🎨 Design System
+### Pré-requisitos
+* Node.js (v22 ou superior)
+* Docker e Docker Desktop (Para a execução via containers)
 
-We use a custom "Neo-Brutalism" inspired design system with specific tokens configured in `globals.css`.
+### Opção 1: Rodando localmente com Node.js
 
-* **Fonts:**
-    * Titles: `Londrina Solid` (var: `--font-londrina`)
-    * Body: `Livvic` (var: `--font-livvic`)
-* **Key Colors:**
-    * `bg-blue-light` / `bg-blue-dark` (Water status)
-    * `bg-green-light` / `bg-green-dark` (Good quality)
-    * `bg-yellow-light` / `bg-yellow-dark` (Warning)
+1. Instale as dependências do projeto:
+```bash
+npm install
+```
 
-## 🤝 Contributing
+2. Inicie o servidor de desenvolvimento::
+``` bash
+npm run dev
+```
 
-1.  Create a feature branch (`git checkout -b feat/amazing-feature`).
-2.  Commit your changes (`git commit -m 'Add some amazing feature'`).
-3.  Push to the branch (`git push origin feat/amazing-feature`).
-4.  Open a Pull Request.
+3. Abra http://localhost:3001 no seu navegador.
+
+### Opção 2: Rodando com Docker Compose (Recomendado)
+
+Se você não quiser instalar dependências localmente, pode subir a aplicação inteira com apenas um comando usando o Docker Compose.
+1. Certifique-se de que o Docker está aberto e rodando no seu computador.
+2. Na raiz do projeto, execute:
+``` bash
+docker compose up -d
+```
+3. Abra http://localhost:3001 no seu navegador.
+
+---
+
+## 🧪 Rodando os Testes Unitários
+
+O projeto possui cobertura de testes para garantir que as lógicas de interface (como a mudança de temas baseada na temperatura) funcionem perfeitamente.
+
+Para rodar a suíte de testes do Jest, utilize o comando:
+``` bash
+npm run test
+```
