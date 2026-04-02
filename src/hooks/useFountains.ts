@@ -28,7 +28,7 @@ export function useFountains() {
         }
 
         // Caso seja seja a 1 vez ou expirou o tempo
-        const response = await fetch('http://localhost:3000/water-fountains/');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/water-fountains/`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch water fountains data');
