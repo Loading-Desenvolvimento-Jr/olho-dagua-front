@@ -1,0 +1,12 @@
+services:
+  frontend:
+    container_name: olho-dagua-front-app
+    build:
+      context: .
+
+      args:
+        NEXT_PUBLIC_API_URL: "http://localhost:3000"
+    
+    ports:
+      - "3001:3001"
+    
