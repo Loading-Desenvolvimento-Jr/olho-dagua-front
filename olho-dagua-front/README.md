@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="../olho-dagua-front/assets/Cover.png" alt="Profile Header" width="full">
+</div>
 
-## Getting Started
+<br></br>
 
-First, run the development server:
+# 💧 Olho D'água - Front-end
 
+Este é o repositório front-end do projeto **Olho D'água**, uma aplicação focada no monitoramento inteligente da qualidade da água e temperatura de bebedouros utilizando sistemas embarcados.
+
+## 🚀 Tecnologias Utilizadas
+
+O projeto foi construído com as melhores e mais modernas tecnologias do ecossistema front-end:
+
+* **[Next.js](https://nextjs.org)** - Framework React para renderização e rotas.
+* **[React](https://react.dev/)** - Biblioteca de construção de interfaces.
+* **[Tailwind CSS](https://tailwindcss.com/)** - Estilização utilitária e design responsivo (Mobile-First).
+* **[Lucide React](https://lucide.dev/)** - Ícones limpos e consistentes.
+* **[Jest](https://jestjs.io/pt-BR/) & React Testing Library** - Testes unitários para garantir a qualidade dos componentes.
+* **[Docker](https://www.docker.com/) & Docker Compose** - Containerização para facilitar a execução em qualquer ambiente.
+
+## ✨ Funcionalidades
+
+* 🌡️ **Monitoramento de Temperatura:** Cards visuais e dinâmicos que mudam de cor (Azul, Amarelo, Laranja) conforme a temperatura atual da água.
+* 🚰 **Status dos Filtros:** Acompanhamento em tempo real da vida útil dos filtros (Excelente, Bom, Atenção, Manutenção, Substituir).
+* 🔍 **Busca e Filtros Dinâmicos:** Barra de pesquisa inteligente com seleção de múltiplos locais.
+* ⚡ **Performance Otimizada:** Sistema de cache de 5 minutos (via `sessionStorage`) para requisições da API, economizando dados e garantindo carregamento instantâneo.
+* 📱 **Design Responsivo:** Interface fluida que se adapta perfeitamente a celulares, tablets e desktops.
+
+---
+
+## 🛠️ Como executar o projeto
+
+Você pode rodar este projeto de duas maneiras: a forma tradicional (via Node) ou utilizando o Docker.
+
+### Pré-requisitos
+* Node.js (v22 ou superior)
+* Docker e Docker Desktop (Para a execução via containers)
+
+### Opção 1: Rodando localmente com Node.js
+
+1. Instale as dependências do projeto:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Inicie o servidor de desenvolvimento::
+``` bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Abra http://localhost:3001 no seu navegador.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Opção 2: Rodando com Docker Compose (Recomendado)
 
-## Learn More
+Se você não quiser instalar dependências localmente, pode subir a aplicação inteira com apenas um comando usando o Docker Compose.
+1. Certifique-se de que o Docker está aberto e rodando no seu computador.
+2. Na raiz do projeto, execute:
+``` bash
+docker compose up -d
+```
+3. Abra http://localhost:3001 no seu navegador.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Rodando os Testes Unitários
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O projeto possui cobertura de testes para garantir que as lógicas de interface (como a mudança de temas baseada na temperatura) funcionem perfeitamente.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Para rodar a suíte de testes do Jest, utilize o comando:
+``` bash
+npm run test
+```
