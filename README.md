@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="../olho-dagua-front/assets/Cover.png" alt="Profile Header" width="full">
+  <img src="./assets/Cover.png" alt="Profile Header" width="full">
 </div>
 
 <br></br>
