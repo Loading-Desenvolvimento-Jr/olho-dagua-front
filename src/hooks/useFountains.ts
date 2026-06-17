@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { WaterFountainAPI } from '@/types/schema';
 
 const CACHE_KEY = 'olho-dagua-fountains-cache';
-const CACHE_EXPIRATION_MS = 19 * 60 * 1000;                           // 10 minutos de intervalo
+const CACHE_EXPIRATION_MS = 1000;
 
 export function useFountains() {
   const [fountains, setFountains] = useState<WaterFountainAPI[]>([]);
@@ -31,7 +31,7 @@ export function useFountains() {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/water-fountains/`);
         
         if (!response.ok) {
-          throw new Error('Failed to fetch water fountains data');
+          throw new Error('Aplicação não está se comunicando com o servidor! 😭');
         }
 
         const data: WaterFountainAPI[] = await response.json();
