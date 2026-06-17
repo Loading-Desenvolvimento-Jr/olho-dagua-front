@@ -4,7 +4,7 @@ import { Filter, Heart, Check, AlertCircle, Ban, X, RotateCw, MapPin } from "luc
 import { cn } from "@/lib/utils";
 import { WaterFountainAPI } from "@/types/schema";
 
-export type FilterStatus = 'excellent' | 'good' | 'attention' | 'maintenance' | 'substitute';
+export type FilterStatus = 'EXCELLENT' | 'ATTENTION' | 'GOOD' | 'TO_REPLACE' | 'maintenance';
 
 interface FountainData extends WaterFountainAPI {
   filterStatus: string;
@@ -13,7 +13,7 @@ interface FountainData extends WaterFountainAPI {
 
 interface FilterStatusCardProps {
   data: FountainData;
-  className?: string; // Sempre bom permitir passar classes extras
+  className?: string;
 }
 
 export function FilterStatusCard({ data, className }: FilterStatusCardProps) {
@@ -21,19 +21,19 @@ export function FilterStatusCard({ data, className }: FilterStatusCardProps) {
 
   // Configuração das cores mantida exatamente igual à sua
   const themeConfig = {
-    excellent: {
+    EXCELLENT: {
       bg: "bg-green-dark",
       title: "Excelente",
       subtitle: "Filtro Limpo",
       MainIcon: Heart,
     },
-    good: {
+    GOOD: {
       bg: "bg-[#02af5d]",
       title: "Bom",
       subtitle: "Filtro em uso Regular",
       MainIcon: Check,
     },
-    attention: {
+    ATTENTION: {
       bg: "bg-orange-dark", 
       title: "Atenção",
       subtitle: "Filtro em saturação Parcial",
@@ -45,7 +45,7 @@ export function FilterStatusCard({ data, className }: FilterStatusCardProps) {
       subtitle: "Filtro em Manutenção",
       MainIcon: Ban,
     },
-    substitute: {
+    TO_REPLACE: {
       bg: "bg-[#dc2626]", 
       title: "Substituir",
       subtitle: "Filtro Vencido - Substituição Necessária",
